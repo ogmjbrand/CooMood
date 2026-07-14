@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ParticleField from "@/components/effects/ParticleField";
-import TiltImage from "@/components/effects/TiltImage";
+import MoodSwitcher from "@/components/home/MoodSwitcher";
 import { LinkButton } from "@/components/ui/Button";
 
 export default function Hero() {
@@ -26,8 +25,6 @@ export default function Hero() {
         animate={{ rotate: 360 }}
         transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
       />
-      <ParticleField color="200, 169, 106" density={70} />
-
       <div className="container-fluid relative grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div className="relative z-10 order-2 lg:order-1">
           <motion.span
@@ -72,13 +69,8 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <div className="relative order-1 z-10 h-[50vh] lg:order-2 lg:h-[75vh]">
-          <TiltImage
-            src="/images/bottle-hero-marble.png"
-            alt="CooMood signature eau de parfum bottle"
-            className="h-full w-full"
-            priority
-          />
+        <div className="relative order-1 z-10 h-[55vh] lg:order-2 lg:h-[75vh]">
+          <MoodSwitcher />
         </div>
       </div>
 

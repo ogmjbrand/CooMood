@@ -1,4 +1,5 @@
 import Hero from "@/components/home/Hero";
+import FlowWaveScene from "@/components/effects/FlowWaveScene";
 import FeaturedCollections from "@/components/home/FeaturedCollections";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
 import WhyCoomood from "@/components/home/WhyCoomood";
@@ -17,6 +18,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <FlowWaveScene />
       <FeaturedCollections collections={collections} />
       <FeaturedProducts />
       <WhyCoomood />

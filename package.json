@@ -23,6 +23,7 @@
     "resend": "^6.17.2",
     "stripe": "^22.3.1",
     "tailwind-merge": "^3.6.0",
+    "three": "^0.143.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.14"
   },
@@ -32,6 +33,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.143.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.20",
     "tailwindcss": "^4",

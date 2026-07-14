@@ -1,10 +1,10 @@
-import { products } from "@/data/products";
+import { getFeaturedProducts } from "@/lib/supabase/queries";
 import ProductCard from "@/components/ui/ProductCard";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { LinkButton } from "@/components/ui/Button";
 
-export default function FeaturedProducts() {
-  const featured = products.filter((p) => p.featured).slice(0, 4);
+export default async function FeaturedProducts() {
+  const featured = await getFeaturedProducts(4);
 
   return (
     <section className="bg-white py-28">

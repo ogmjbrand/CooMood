@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/ui/PageHero";
-import { collections, aromaKindTags } from "@/data/collections";
+import { aromaKindTags } from "@/data/collections";
+import { getCollections } from "@/lib/supabase/queries";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Collections",
   description: "Explore CooMood's Aroma Kind collections — Energetic, Attractive, Bold, and Custom.",
 };
 
-export default function CollectionsPage() {
+export default async function CollectionsPage() {
+  const collections = await getCollections();
+
   return (
     <>
       <PageHero

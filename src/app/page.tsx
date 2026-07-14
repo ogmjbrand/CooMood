@@ -7,12 +7,17 @@ import PackagingShowcase from "@/components/home/PackagingShowcase";
 import Reviews from "@/components/home/Reviews";
 import InstagramFeed from "@/components/home/InstagramFeed";
 import Newsletter from "@/components/home/Newsletter";
+import { getCollections } from "@/lib/supabase/queries";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const collections = await getCollections();
+
   return (
     <>
       <Hero />
-      <FeaturedCollections />
+      <FeaturedCollections collections={collections} />
       <FeaturedProducts />
       <WhyCoomood />
       <ScentBuilderTeaser />

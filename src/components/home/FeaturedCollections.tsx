@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { collections } from "@/data/collections";
+import type { Collection } from "@/types";
 import SectionHeading from "@/components/ui/SectionHeading";
 
-export default function FeaturedCollections() {
+export default function FeaturedCollections({ collections }: { collections: Collection[] }) {
   return (
     <section className="bg-cream py-28">
       <div className="container-fluid">

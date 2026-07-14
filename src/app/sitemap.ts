@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/data/products";
-import { collections } from "@/data/collections";
+import { getCollections, getProducts } from "@/lib/supabase/queries";
 import { journalPosts } from "@/data/journal";
+
+export const dynamic = "force-dynamic";
 
 const BASE_URL = "https://coomood.com";
 
@@ -30,11 +31,13 @@ const STATIC_ROUTES = [
   "/search",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = STATIC_ROUTES.map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),
   }));
+
+  const [products, collections] = await Promise.all([getProducts(), getCollections()]);
 
   const productEntries = products.map((p) => ({
     url: `${BASE_URL}/shop/${p.slug}`,

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
 import ShopExplorer from "@/components/shop/ShopExplorer";
-import { products } from "@/data/products";
+import { getGiftProducts } from "@/lib/supabase/queries";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Gift Sets",
   description: "Curated CooMood gift sets in velvet-lined boxes with wax-sealed ribbon.",
 };
 
-export default function GiftSetsPage() {
-  const giftProducts = products.filter(
-    (p) => p.category === "gift-set" || p.occasion.includes("Gifting")
-  );
+export default async function GiftSetsPage() {
+  const giftProducts = await getGiftProducts();
 
   return (
     <>

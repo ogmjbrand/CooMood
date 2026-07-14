@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getRelatedProducts, products } from "@/data/products";
+import {
+  getProductBySlug,
+  getProducts,
+  getRelatedProducts,
+  getReviewsForProduct,
+} from "@/lib/supabase/queries";
 import ProductDetail from "@/components/shop/ProductDetail";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -13,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return {};
   return {
     title: product.name,
@@ -33,10 +36,14 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = getRelatedProducts(product);
+  const [related, allProducts, reviews] = await Promise.all([
+    getRelatedProducts(product),
+    getProducts(),
+    getReviewsForProduct(product.slug),
+  ]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -67,7 +74,7 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ProductDetail product={product} related={related} />
+      <ProductDetail product={product} related={related} allProducts={allProducts} reviews={reviews} />
     </>
   );
 }

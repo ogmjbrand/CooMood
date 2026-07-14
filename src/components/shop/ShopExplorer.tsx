@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
-import type { Product } from "@/types";
-import { collections } from "@/data/collections";
+import type { Collection, Product } from "@/types";
 import ProductCard from "@/components/ui/ProductCard";
 import { cn } from "@/lib/utils";
 
@@ -22,10 +21,12 @@ const PAGE_SIZE = 8;
 
 export default function ShopExplorer({
   products,
+  collections = [],
   title = "All Fragrances",
   hideCollectionFilter = false,
 }: {
   products: Product[];
+  collections?: Collection[];
   title?: string;
   hideCollectionFilter?: boolean;
 }) {

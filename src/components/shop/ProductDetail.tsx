@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Minus, Plus, ShieldCheck, ShoppingBag, Truck } from "lucide-react";
-import type { Product } from "@/types";
-import { products as allProducts } from "@/data/products";
+import type { Product, Review } from "@/types";
 import { formatPrice, cn } from "@/lib/utils";
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
@@ -19,9 +18,13 @@ const TABS = ["Description", "Notes", "Ingredients & Longevity", "Reviews"] as c
 export default function ProductDetail({
   product,
   related,
+  allProducts,
+  reviews,
 }: {
   product: Product;
   related: Product[];
+  allProducts: Product[];
+  reviews: Review[];
 }) {
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
@@ -199,10 +202,31 @@ export default function ProductDetail({
             </ul>
           )}
           {tab === "Reviews" && (
-            <p>
-              {product.reviewCount} verified buyers rated this fragrance an average of{" "}
-              {product.rating.toFixed(1)} / 5. Full review moderation available in the CooMood CMS.
-            </p>
+            <div>
+              <p>
+                {product.reviewCount} verified buyers rated this fragrance an average of{" "}
+                {product.rating.toFixed(1)} / 5.
+              </p>
+              {reviews.length > 0 && (
+                <ul className="mt-6 space-y-6">
+                  {reviews.map((review) => (
+                    <li key={review.id} className="border-t border-ink/10 pt-6">
+                      <div className="flex items-center gap-2">
+                        <StarRating rating={review.rating} size={12} />
+                        {review.verified && (
+                          <span className="font-sans text-[11px] uppercase tracking-wide text-gold-dark">
+                            Verified Buyer
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-2 font-display text-base text-ink">{review.title}</p>
+                      <p className="mt-1 text-sm text-ink/65">{review.body}</p>
+                      <p className="mt-2 font-sans text-xs text-ink/40">{review.author}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           )}
         </motion.div>
       </div>

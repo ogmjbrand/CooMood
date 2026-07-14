@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PageHero from "@/components/ui/PageHero";
 import ShopExplorer from "@/components/shop/ShopExplorer";
-import { collections } from "@/data/collections";
-import { products } from "@/data/products";
+import { getCollectionBySlug, getProductsByCollection } from "@/lib/supabase/queries";
 
-export function generateStaticParams() {
-  return collections.filter((c) => c.slug !== "custom").map((c) => ({ slug: c.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -15,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const collection = collections.find((c) => c.slug === slug);
+  const collection = await getCollectionBySlug(slug);
   if (!collection) return {};
   return {
     title: `${collection.name} Collection`,
@@ -30,10 +27,10 @@ export default async function CollectionPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const collection = collections.find((c) => c.slug === slug);
+  const collection = await getCollectionBySlug(slug);
   if (!collection) notFound();
 
-  const collectionProducts = products.filter((p) => p.collection === collection.slug);
+  const collectionProducts = await getProductsByCollection(collection.slug);
 
   return (
     <>

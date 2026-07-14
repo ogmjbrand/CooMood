@@ -65,6 +65,8 @@ create table if not exists public.products (
   featured boolean not null default false,
   is_new boolean not null default false,
   bestseller boolean not null default false,
+  rating numeric(2, 1) not null default 0,
+  review_count integer not null default 0,
   created_at timestamptz not null default now()
 );
 

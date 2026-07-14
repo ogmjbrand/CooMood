@@ -100,6 +100,8 @@ create table if not exists public.custom_scents (
 );
 
 -- ─── Orders ─────────────────────────────────────────────────────────────────
+create sequence if not exists public.order_number_seq start 10000;
+
 create table if not exists public.orders (
   id uuid primary key default gen_random_uuid(),
   order_number text unique not null default 'CM-' || to_char(nextval('public.order_number_seq'), 'FM10000'),
@@ -118,8 +120,6 @@ create table if not exists public.orders (
   tracking_number text,
   created_at timestamptz not null default now()
 );
-
-create sequence if not exists public.order_number_seq start 10000;
 
 create table if not exists public.order_items (
   id uuid primary key default gen_random_uuid(),

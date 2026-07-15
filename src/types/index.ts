@@ -1,5 +1,6 @@
 export type ProductCategory =
   | "eau-de-parfum"
+  | "extrait-de-parfum"
   | "cologne"
   | "body-mist"
   | "perfume-oil"

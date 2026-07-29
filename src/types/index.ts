@@ -100,6 +100,46 @@ export interface FAQItem {
   category: string;
 }
 
+export interface Customer {
+  id: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  rewardsPoints: number;
+  referralCode: string;
+}
+
+export interface Address {
+  id: string;
+  label: string;
+  fullName: string;
+  line1: string;
+  line2: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  isDefault: boolean;
+}
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  unitPrice: number;
+  quantity: number;
+  size: string;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  status: string;
+  total: number;
+  createdAt: string;
+  items: OrderItem[];
+}
+
 export interface CartLine {
   id: string;
   slug: string;

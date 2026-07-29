@@ -7,6 +7,7 @@ import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
+import { createClient } from "@/lib/supabase/client";
 
 const NAV_LINKS = [
   { href: "/shop", label: "Shop" },
@@ -21,6 +22,7 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
   const cartCount = useCartStore((s) => s.count());
   const openCart = useCartStore((s) => s.open);
   const wishlistCount = useWishlistStore((s) => s.slugs.length);
@@ -30,6 +32,15 @@ export default function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setSignedIn(Boolean(data.user)));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSignedIn(Boolean(session?.user));
+    });
+    return () => sub.subscription.unsubscribe();
   }, []);
 
   return (
@@ -73,8 +84,8 @@ export default function Header() {
               <Search size={18} strokeWidth={1.5} />
             </Link>
             <Link
-              href="/account"
-              aria-label="Account"
+              href={signedIn ? "/account" : "/login"}
+              aria-label={signedIn ? "Account" : "Sign In"}
               className="hidden h-10 w-10 items-center justify-center rounded-full text-ink/70 transition-colors hover:bg-ink/5 hover:text-ink sm:flex"
             >
               <User size={18} strokeWidth={1.5} />
@@ -152,8 +163,8 @@ export default function Header() {
                 </motion.div>
               ))}
               <div className="mt-6 flex gap-6 font-sans text-sm uppercase tracking-wide text-ink/60">
-                <Link href="/account" onClick={() => setMobileOpen(false)}>
-                  Account
+                <Link href={signedIn ? "/account" : "/login"} onClick={() => setMobileOpen(false)}>
+                  {signedIn ? "Account" : "Sign In"}
                 </Link>
                 <Link href="/wishlist" onClick={() => setMobileOpen(false)}>
                   Wishlist

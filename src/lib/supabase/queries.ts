@@ -1,5 +1,5 @@
 import { createClient } from "./server";
-import type { Collection, Product, Review } from "@/types";
+import type { Address, Collection, Customer, Order, Product, Review } from "@/types";
 
 interface ProductRow {
   slug: string;
@@ -189,6 +189,111 @@ export async function getCollectionBySlug(slug: string): Promise<Collection | nu
     .maybeSingle();
   if (error) throw error;
   return data ? mapCollection(data as unknown as CollectionRow) : null;
+}
+
+interface CustomerRow {
+  id: string;
+  full_name: string | null;
+  phone: string | null;
+  rewards_points: number;
+  referral_code: string | null;
+}
+
+interface AddressRow {
+  id: string;
+  label: string | null;
+  full_name: string;
+  line1: string;
+  line2: string | null;
+  city: string;
+  state: string | null;
+  postal_code: string;
+  country: string;
+  phone: string | null;
+  is_default: boolean;
+}
+
+interface OrderItemRow {
+  id: string;
+  name: string;
+  unit_price: number | string;
+  quantity: number;
+  size: string | null;
+}
+
+interface OrderRow {
+  id: string;
+  order_number: string;
+  status: string;
+  total: number | string;
+  created_at: string;
+  order_items: OrderItemRow[];
+}
+
+export async function getCustomer(userId: string, email: string): Promise<Customer> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("customers")
+    .select("id, full_name, phone, rewards_points, referral_code")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error) throw error;
+  const row = data as unknown as CustomerRow | null;
+  return {
+    id: userId,
+    email,
+    fullName: row?.full_name ?? "",
+    phone: row?.phone ?? "",
+    rewardsPoints: row?.rewards_points ?? 0,
+    referralCode: row?.referral_code ?? "",
+  };
+}
+
+export async function getAddresses(userId: string): Promise<Address[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("addresses")
+    .select("id, label, full_name, line1, line2, city, state, postal_code, country, phone, is_default")
+    .eq("customer_id", userId)
+    .order("created_at");
+  if (error) throw error;
+  return ((data ?? []) as unknown as AddressRow[]).map((row) => ({
+    id: row.id,
+    label: row.label ?? "",
+    fullName: row.full_name,
+    line1: row.line1,
+    line2: row.line2 ?? "",
+    city: row.city,
+    state: row.state ?? "",
+    postalCode: row.postal_code,
+    country: row.country,
+    phone: row.phone ?? "",
+    isDefault: row.is_default,
+  }));
+}
+
+export async function getOrders(userId: string): Promise<Order[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("orders")
+    .select("id, order_number, status, total, created_at, order_items(id, name, unit_price, quantity, size)")
+    .eq("customer_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return ((data ?? []) as unknown as OrderRow[]).map((row) => ({
+    id: row.id,
+    orderNumber: row.order_number,
+    status: row.status,
+    total: Number(row.total),
+    createdAt: row.created_at,
+    items: (row.order_items ?? []).map((it) => ({
+      id: it.id,
+      name: it.name,
+      unitPrice: Number(it.unit_price),
+      quantity: it.quantity,
+      size: it.size ?? "",
+    })),
+  }));
 }
 
 export async function getReviewsForProduct(slug: string): Promise<Review[]> {

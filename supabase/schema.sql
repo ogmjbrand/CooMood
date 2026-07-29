@@ -14,6 +14,26 @@ create table if not exists public.customers (
   created_at timestamptz not null default now()
 );
 
+-- Auto-create a customers row whenever someone signs up via Supabase Auth.
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.customers (id, full_name)
+  values (new.id, new.raw_user_meta_data->>'full_name')
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
 create table if not exists public.addresses (
   id uuid primary key default gen_random_uuid(),
   customer_id uuid not null references public.customers (id) on delete cascade,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -84,55 +85,67 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
           animate={{ left: mode === "login" ? "50%" : "0%" }}
           transition={{ type: "spring", stiffness: 210, damping: 26 }}
           className={cn(
-            "absolute inset-y-0 z-10 flex w-1/2 flex-col items-center justify-center gap-6 bg-ink px-12 text-center text-cream transition-[border-radius] duration-500 ease-in-out",
+            "absolute inset-y-0 z-10 w-1/2 overflow-hidden text-cream transition-[border-radius] duration-500 ease-in-out",
             mode === "login" ? "rounded-l-[160px]" : "rounded-r-[160px]"
           )}
         >
-          <AnimatePresence mode="wait">
-            {mode === "login" ? (
-              <motion.div
-                key="to-signup"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3, delay: 0.15 }}
-                className="flex flex-col items-center gap-4"
-              >
-                <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-light">New Here?</p>
-                <h2 className="font-display text-3xl leading-tight">Start Your Scent Story</h2>
-                <p className="font-sans text-sm text-cream/60">
-                  Create an account to save your custom blends, track orders, and earn rewards.
-                </p>
-                <button
-                  onClick={() => setMode("signup")}
-                  className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-ink"
+          <Image
+            src="/images/bottle-hero-smoke.png"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 768px) 480px"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink from-10% via-ink/85 via-45% to-ink/20 to-100%" />
+
+          <div className="relative z-10 flex h-full flex-col items-center justify-end gap-4 px-12 pb-14 pt-12 text-center">
+            <AnimatePresence mode="wait">
+              {mode === "login" ? (
+                <motion.div
+                  key="to-signup"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.3, delay: 0.15 }}
+                  className="flex flex-col items-center gap-4"
                 >
-                  Create Account
-                </button>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="to-login"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3, delay: 0.15 }}
-                className="flex flex-col items-center gap-4"
-              >
-                <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-light">Welcome Back</p>
-                <h2 className="font-display text-3xl leading-tight">Already One of Us?</h2>
-                <p className="font-sans text-sm text-cream/60">
-                  Sign in to pick up right where you left off.
-                </p>
-                <button
-                  onClick={() => setMode("login")}
-                  className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-ink"
+                  <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-light">New Here?</p>
+                  <h2 className="font-display text-3xl leading-tight">Start Your Scent Story</h2>
+                  <p className="font-sans text-sm text-cream/60">
+                    Create an account to save your custom blends, track orders, and earn rewards.
+                  </p>
+                  <button
+                    onClick={() => setMode("signup")}
+                    className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-ink"
+                  >
+                    Create Account
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="to-login"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.3, delay: 0.15 }}
+                  className="flex flex-col items-center gap-4"
                 >
-                  Sign In
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-light">Welcome Back</p>
+                  <h2 className="font-display text-3xl leading-tight">Already One of Us?</h2>
+                  <p className="font-sans text-sm text-cream/60">
+                    Sign in to pick up right where you left off.
+                  </p>
+                  <button
+                    onClick={() => setMode("login")}
+                    className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-ink"
+                  >
+                    Sign In
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
       </div>
     </div>

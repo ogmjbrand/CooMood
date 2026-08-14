@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Heart, ShoppingBag } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Heart, ShoppingBag } from "lucide-react";
 import type { Product } from "@/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/lib/store/cart";
@@ -13,6 +13,7 @@ import StarRating from "./StarRating";
 
 export default function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const [hovered, setHovered] = useState(false);
+  const [added, setAdded] = useState(false);
   const addLine = useCartStore((s) => s.addLine);
   const wishlisted = useWishlistStore((s) => s.has(product.slug));
   const toggleWishlist = useWishlistStore((s) => s.toggle);
@@ -85,6 +86,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
           <button
             onClick={(e) => {
               e.preventDefault();
+              if (added) return;
               addLine({
                 slug: product.slug,
                 name: product.name,
@@ -93,10 +95,39 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
                 size: product.size,
                 quantity: 1,
               });
+              setAdded(true);
+              setTimeout(() => setAdded(false), 1800);
             }}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-ink/90 py-3 font-sans text-[11px] uppercase tracking-wide text-cream backdrop-blur hover:bg-ink"
+            className={cn(
+              "flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3 font-sans text-[11px] uppercase tracking-wide backdrop-blur transition-colors duration-300",
+              added ? "bg-emerald-600 text-white" : "bg-ink/90 text-cream hover:bg-ink"
+            )}
           >
-            <ShoppingBag size={13} /> Quick Add
+            <AnimatePresence mode="wait" initial={false}>
+              {added ? (
+                <motion.span
+                  key="added"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-2"
+                >
+                  <Check size={13} /> Added
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="add"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-2"
+                >
+                  <ShoppingBag size={13} /> Quick Add
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </Link>

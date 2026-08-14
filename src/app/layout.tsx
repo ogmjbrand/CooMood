@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/layout/CartDrawer";
+import CartPill from "@/components/layout/CartPill";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import Analytics from "@/components/layout/Analytics";
@@ -71,6 +72,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <CartDrawer />
+        <CartPill />
         <Analytics />
       </body>
     </html>

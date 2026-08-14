@@ -30,6 +30,7 @@ export default function ProductDetail({
   const [tab, setTab] = useState<(typeof TABS)[number]>("Description");
   const [showSticky, setShowSticky] = useState(false);
   const addLine = useCartStore((s) => s.addLine);
+  const openCart = useCartStore((s) => s.open);
   const wishlisted = useWishlistStore((s) => s.has(product.slug));
   const toggleWishlist = useWishlistStore((s) => s.toggle);
   const addRecentlyViewed = useRecentlyViewedStore((s) => s.add);
@@ -125,7 +126,10 @@ export default function ProductDetail({
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <button
-              onClick={handleAddToCart}
+              onClick={() => {
+                handleAddToCart();
+                openCart();
+              }}
               className="flex flex-1 items-center justify-center gap-2 rounded-full bg-ink py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-transform hover:scale-[1.01]"
             >
               <ShoppingBag size={15} /> Add to Cart
@@ -265,7 +269,10 @@ export default function ProductDetail({
             <p className="font-sans text-sm text-ink/60">{formatPrice(product.price)}</p>
           </div>
           <button
-            onClick={handleAddToCart}
+            onClick={() => {
+              handleAddToCart();
+              openCart();
+            }}
             className="rounded-full bg-ink px-8 py-3.5 font-sans text-xs uppercase tracking-wide text-cream"
           >
             Add to Cart

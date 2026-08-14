@@ -34,7 +34,6 @@ export const useCartStore = create<CartState>()(
               lines: state.lines.map((l) =>
                 l.id === existing.id ? { ...l, quantity: l.quantity + line.quantity } : l
               ),
-              isOpen: true,
             };
           }
           return {
@@ -42,7 +41,6 @@ export const useCartStore = create<CartState>()(
               ...state.lines,
               { ...line, id: `${line.slug}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}` },
             ],
-            isOpen: true,
           };
         }),
       removeLine: (id) => set((state) => ({ lines: state.lines.filter((l) => l.id !== id) })),

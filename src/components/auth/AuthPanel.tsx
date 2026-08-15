@@ -18,46 +18,88 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
   }, [mode, router]);
 
   return (
-    <div className="container-fluid flex min-h-[85vh] items-center justify-center py-16 pt-32">
-      {/* Mobile: simple tabbed forms */}
-      <div className="w-full max-w-md md:hidden">
-        <div className="mb-6 flex rounded-full bg-ink/5 p-1">
-          <button
-            onClick={() => setMode("login")}
-            className={cn(
-              "flex-1 rounded-full py-2.5 font-sans text-xs uppercase tracking-wide transition-colors",
-              mode === "login" ? "bg-ink text-cream" : "text-ink/50"
-            )}
-          >
-            Sign In
-          </button>
-          <button
-            onClick={() => setMode("signup")}
-            className={cn(
-              "flex-1 rounded-full py-2.5 font-sans text-xs uppercase tracking-wide transition-colors",
-              mode === "signup" ? "bg-ink text-cream" : "text-ink/50"
-            )}
-          >
-            Create Account
-          </button>
+    <>
+      {/* Mobile: full-bleed photo banner + bottom-sheet tabbed forms */}
+      <div className="md:hidden">
+        <div className="relative h-[54vh] min-h-[420px] w-full overflow-hidden">
+          <Image
+            src="/images/bottle-hero-smoke.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-ink/15 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-ink via-ink/75 via-60% to-transparent" />
+
+          <div className="absolute inset-x-0 bottom-14 px-8 text-center text-cream">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={mode}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25 }}
+              >
+                <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-light">
+                  {mode === "login" ? "Welcome Back" : "New Here?"}
+                </p>
+                <h1 className="mt-2 font-display text-3xl leading-tight">
+                  {mode === "login" ? "Sign In to CooMood" : "Start Your Scent Story"}
+                </h1>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
-        <div className="rounded-[2rem] bg-white p-8">
-          <AnimatePresence mode="wait">
+
+        <div className="relative z-10 -mt-8 rounded-t-[2.5rem] bg-cream px-6 pb-16 pt-8">
+          <div className="relative mx-auto mb-6 flex max-w-sm rounded-full bg-ink/5 p-1">
             <motion.div
-              key={mode}
-              initial={{ opacity: 0, x: mode === "login" ? -16 : 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: mode === "login" ? 16 : -16 }}
-              transition={{ duration: 0.25 }}
+              className="absolute inset-y-1 rounded-full bg-ink"
+              style={{ width: "calc(50% - 4px)" }}
+              animate={{ left: mode === "login" ? "4px" : "50%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            />
+            <button
+              onClick={() => setMode("login")}
+              className={cn(
+                "relative z-10 flex-1 whitespace-nowrap px-1 py-2.5 text-center font-sans text-[11px] uppercase tracking-normal transition-colors",
+                mode === "login" ? "text-cream" : "text-ink/50"
+              )}
             >
-              {mode === "login" ? <LoginForm /> : <SignupForm />}
-            </motion.div>
-          </AnimatePresence>
+              Sign In
+            </button>
+            <button
+              onClick={() => setMode("signup")}
+              className={cn(
+                "relative z-10 flex-1 whitespace-nowrap px-1 py-2.5 text-center font-sans text-[11px] uppercase tracking-normal transition-colors",
+                mode === "signup" ? "text-cream" : "text-ink/50"
+              )}
+            >
+              Create Account
+            </button>
+          </div>
+
+          <div className="mx-auto max-w-sm rounded-[2rem] bg-white p-6 shadow-[0_20px_60px_rgba(17,17,17,0.08)]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={mode}
+                initial={{ opacity: 0, x: mode === "login" ? -16 : 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: mode === "login" ? 16 : -16 }}
+                transition={{ duration: 0.25 }}
+              >
+                {mode === "login" ? <LoginForm /> : <SignupForm />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
       {/* Desktop: sliding split panel */}
-      <div className="relative hidden h-[600px] w-full max-w-4xl overflow-hidden rounded-[2.5rem] bg-white shadow-[0_30px_80px_rgba(17,17,17,0.15)] md:grid md:grid-cols-2">
+      <div className="container-fluid hidden min-h-[85vh] items-center justify-center py-16 pt-32 md:flex">
+        <div className="relative h-[600px] w-full max-w-4xl overflow-hidden rounded-[2.5rem] bg-white shadow-[0_30px_80px_rgba(17,17,17,0.15)] md:grid md:grid-cols-2">
         <div
           className={cn(
             "flex items-center justify-center p-12 transition-opacity duration-300",
@@ -147,8 +189,9 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
             </AnimatePresence>
           </div>
         </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

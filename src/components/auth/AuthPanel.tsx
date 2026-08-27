@@ -30,8 +30,8 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-ink/15 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-ink via-ink/75 via-60% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-cherry/25 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-cherry via-cherry/80 via-60% to-transparent" />
 
           <div className="absolute inset-x-0 bottom-14 px-8 text-center text-cream">
             <AnimatePresence mode="wait">
@@ -56,7 +56,7 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
         <div className="relative z-10 -mt-8 rounded-t-[2.5rem] bg-cream px-6 pb-16 pt-8">
           <div className="relative mx-auto mb-6 flex max-w-sm rounded-full bg-ink/5 p-1">
             <motion.div
-              className="absolute inset-y-1 rounded-full bg-ink"
+              className="absolute inset-y-1 rounded-full bg-cherry"
               style={{ width: "calc(50% - 4px)" }}
               animate={{ left: mode === "login" ? "4px" : "50%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -139,7 +139,7 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
             sizes="(min-width: 768px) 480px"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink from-10% via-ink/85 via-45% to-ink/20 to-100%" />
+          <div className="absolute inset-0 bg-gradient-to-t from-cherry from-10% via-cherry/85 via-45% to-cherry/25 to-100%" />
 
           <div className="relative z-10 flex h-full flex-col items-center justify-end gap-4 px-12 pb-14 pt-12 text-center">
             <AnimatePresence mode="wait">
@@ -159,7 +159,7 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
                   </p>
                   <button
                     onClick={() => setMode("signup")}
-                    className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-ink"
+                    className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-cherry"
                   >
                     Create Account
                   </button>
@@ -180,7 +180,7 @@ export default function AuthPanel({ initialMode }: { initialMode: Mode }) {
                   </p>
                   <button
                     onClick={() => setMode("login")}
-                    className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-ink"
+                    className="rounded-full border border-cream/40 px-8 py-3 font-sans text-xs uppercase tracking-wide transition-colors hover:bg-cream hover:text-cherry"
                   >
                     Sign In
                   </button>
@@ -233,7 +233,7 @@ function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-full bg-ink px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream disabled:opacity-50"
+        className="w-full rounded-full bg-cherry px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light disabled:opacity-50"
       >
         {loading ? "Signing In…" : "Sign In"}
       </button>
@@ -293,7 +293,7 @@ function SignupForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-full bg-ink px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream disabled:opacity-50"
+        className="w-full rounded-full bg-cherry px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light disabled:opacity-50"
       >
         {loading ? "Creating Account…" : "Create Account"}
       </button>

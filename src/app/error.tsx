@@ -26,7 +26,7 @@ export default function Error({
       <div className="mt-10 flex gap-4">
         <button
           onClick={() => reset()}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-8 py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-transform hover:scale-[1.02]"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-cherry px-8 py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-all hover:scale-[1.02] hover:bg-cherry-light"
         >
           Try Again
         </button>

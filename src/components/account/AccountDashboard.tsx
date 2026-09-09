@@ -89,7 +89,7 @@ export default function AccountDashboard({
             </p>
             <Link
               href="/shop"
-              className="inline-block rounded-full bg-ink px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream"
+              className="inline-block rounded-full bg-cherry px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light"
             >
               Start a Subscription
             </Link>
@@ -169,7 +169,7 @@ function ProfileTab({ customer }: { customer: Customer }) {
       <button
         onClick={handleSave}
         disabled={status === "saving"}
-        className="rounded-full bg-ink px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream disabled:opacity-50"
+        className="rounded-full bg-cherry px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light disabled:opacity-50"
       >
         {status === "saving" ? "Saving…" : "Save Changes"}
       </button>
@@ -353,7 +353,7 @@ function AddressesTab({
           <div className="flex gap-2">
             <button
               type="submit"
-              className="rounded-full bg-ink px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream"
+              className="rounded-full bg-cherry px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light"
             >
               Save Address
             </button>

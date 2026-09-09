@@ -130,7 +130,7 @@ export default function ProductDetail({
                 handleAddToCart();
                 openCart();
               }}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-ink py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-transform hover:scale-[1.01]"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-cherry py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-all hover:scale-[1.01] hover:bg-cherry-light"
             >
               <ShoppingBag size={15} /> Add to Cart
             </button>
@@ -273,7 +273,7 @@ export default function ProductDetail({
               handleAddToCart();
               openCart();
             }}
-            className="rounded-full bg-ink px-8 py-3.5 font-sans text-xs uppercase tracking-wide text-cream"
+            className="rounded-full bg-cherry px-8 py-3.5 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light"
           >
             Add to Cart
           </button>

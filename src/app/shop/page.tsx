@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
 import ShopExplorer from "@/components/shop/ShopExplorer";
+import FeaturedCarousel from "@/components/shop/FeaturedCarousel";
 import { getCollections, getProducts } from "@/lib/supabase/queries";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,9 @@ export const metadata: Metadata = {
 export default async function ShopPage() {
   const [products, collections] = await Promise.all([getProducts(), getCollections()]);
 
+  const featured = products.filter((p) => p.featured || p.bestseller).slice(0, 8);
+  const carouselProducts = featured.length >= 3 ? featured : products.slice(0, 8);
+
   return (
     <>
       <PageHero
@@ -21,6 +25,7 @@ export default async function ShopPage() {
         title="All Fragrances"
         description="Every scent CooMood makes, from signature eau de parfum to home fragrance, in one place."
       />
+      <FeaturedCarousel products={carouselProducts} />
       <ShopExplorer products={products} collections={collections} title="All Fragrances" />
     </>
   );

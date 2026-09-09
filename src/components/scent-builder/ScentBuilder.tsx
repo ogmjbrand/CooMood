@@ -108,7 +108,7 @@ export default function ScentBuilder() {
             </div>
             <button
               onClick={handleAddToCart}
-              className="flex items-center gap-2 rounded-full bg-gold px-6 py-3.5 font-sans text-xs uppercase tracking-wide text-ink transition-transform hover:scale-105"
+              className="flex items-center gap-2 rounded-full bg-cherry px-6 py-3.5 font-sans text-xs uppercase tracking-wide text-cream transition-transform hover:scale-105 hover:bg-cherry-light"
             >
               {added ? <Check size={15} /> : <ShoppingBag size={15} />}
               {added ? "Added" : "Add to Cart"}
@@ -145,7 +145,7 @@ export default function ScentBuilder() {
                   onClick={() => setSize(s.id)}
                   className={cn(
                     "rounded-full border px-6 py-3 font-sans text-sm transition-colors",
-                    size === s.id ? "border-ink bg-ink text-cream" : "border-ink/15 text-ink/70"
+                    size === s.id ? "border-cherry bg-cherry text-cream" : "border-ink/15 text-ink/70"
                   )}
                 >
                   {s.name}
@@ -286,7 +286,7 @@ function NoteColumn({
             className={cn(
               "rounded-full border px-3.5 py-2 font-sans text-xs transition-colors",
               selected.includes(o.id)
-                ? "border-ink bg-ink text-cream"
+                ? "border-cherry bg-cherry text-cream"
                 : "border-ink/15 text-ink/70 hover:border-ink/40"
             )}
           >

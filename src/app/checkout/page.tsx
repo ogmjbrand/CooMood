@@ -113,7 +113,7 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={lines.length === 0 || status === "loading"}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-transform hover:scale-[1.01] disabled:opacity-40"
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-cherry py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-all hover:scale-[1.01] hover:bg-cherry-light disabled:opacity-40"
           >
             <Lock size={14} />
             {status === "loading" ? "Processing..." : `Place Order — ${formatPrice(Math.max(total, 0))}`}

@@ -46,7 +46,7 @@ export default function CartDrawer() {
                   <Link
                     href="/shop"
                     onClick={close}
-                    className="rounded-full bg-ink px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream"
+                    className="rounded-full bg-cherry px-6 py-3 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light"
                   >
                     Shop Collection
                   </Link>
@@ -118,7 +118,7 @@ export default function CartDrawer() {
                 <Link
                   href="/checkout"
                   onClick={close}
-                  className="block w-full rounded-full bg-ink py-4 text-center font-sans text-xs uppercase tracking-[0.15em] text-cream transition-transform hover:scale-[1.02]"
+                  className="block w-full rounded-full bg-cherry py-4 text-center font-sans text-xs uppercase tracking-[0.15em] text-cream transition-all hover:scale-[1.02] hover:bg-cherry-light"
                 >
                   Checkout
                 </Link>

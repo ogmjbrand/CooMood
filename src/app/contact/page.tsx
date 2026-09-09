@@ -45,7 +45,7 @@ export default function ContactPage() {
           </label>
           <button
             type="submit"
-            className="rounded-full bg-ink px-8 py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-transform hover:scale-[1.02]"
+            className="rounded-full bg-cherry px-8 py-4 font-sans text-xs uppercase tracking-[0.15em] text-cream transition-all hover:scale-[1.02] hover:bg-cherry-light"
           >
             Send Message
           </button>

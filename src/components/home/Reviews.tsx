@@ -28,14 +28,14 @@ export default function Reviews() {
             <button
               onClick={() => scroll(-1)}
               aria-label="Previous review"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 hover:bg-ink hover:text-cream"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 transition-colors hover:border-cherry hover:bg-cherry hover:text-cream"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => scroll(1)}
               aria-label="Next review"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 hover:bg-ink hover:text-cream"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 transition-colors hover:border-cherry hover:bg-cherry hover:text-cream"
             >
               <ChevronRight size={18} />
             </button>

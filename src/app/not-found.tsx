@@ -14,7 +14,7 @@ export default function NotFound() {
         <LinkButton href="/">Return Home</LinkButton>
         <Link
           href="/shop"
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/20 px-8 py-4 font-sans text-xs uppercase tracking-[0.15em] text-ink transition-colors hover:bg-ink hover:text-cream"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/20 px-8 py-4 font-sans text-xs uppercase tracking-[0.15em] text-ink transition-colors hover:border-cherry hover:bg-cherry hover:text-cream"
         >
           Shop Collection
         </Link>

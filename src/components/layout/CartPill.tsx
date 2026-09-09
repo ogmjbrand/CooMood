@@ -31,7 +31,7 @@ export default function CartPill() {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 80, opacity: 0, scale: 0.9 }}
           transition={{ type: "spring", damping: 22, stiffness: 320 }}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-full bg-ink py-2 pl-2 pr-4 text-cream shadow-[0_12px_40px_rgba(17,17,17,0.3)] sm:bottom-8 sm:right-8"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-full bg-cherry py-2 pl-2 pr-4 text-cream shadow-[0_12px_40px_rgba(139,17,32,0.35)] sm:bottom-8 sm:right-8"
         >
           <motion.span
             key={count}
@@ -45,7 +45,7 @@ export default function CartPill() {
                 {thumbnails.map((t) => (
                   <span
                     key={t.id}
-                    className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-ink bg-white"
+                    className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-cherry bg-white"
                   >
                     <Image src={t.image} alt="" fill sizes="36px" className="object-cover" />
                   </span>

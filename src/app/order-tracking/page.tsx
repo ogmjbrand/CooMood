@@ -47,7 +47,7 @@ function OrderTrackingContent() {
             type="email"
             className="w-full rounded-full border border-ink/15 px-5 py-3.5 font-sans text-sm focus:border-gold focus:outline-none"
           />
-          <button className="shrink-0 rounded-full bg-ink px-8 py-3.5 font-sans text-xs uppercase tracking-wide text-cream">
+          <button className="shrink-0 rounded-full bg-cherry px-8 py-3.5 font-sans text-xs uppercase tracking-wide text-cream transition-colors hover:bg-cherry-light">
             Track
           </button>
         </form>

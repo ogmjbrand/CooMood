@@ -5,8 +5,8 @@ import type { ButtonHTMLAttributes } from "react";
 type Variant = "primary" | "secondary" | "ghost" | "gold";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-ink text-cream hover:bg-ink/85",
-  secondary: "border border-ink/20 text-ink hover:bg-ink hover:text-cream",
+  primary: "bg-cherry text-cream hover:bg-cherry-light",
+  secondary: "border border-ink/20 text-ink hover:bg-cherry hover:border-cherry hover:text-cream",
   ghost: "text-ink hover:bg-ink/5",
   gold: "bg-gold text-ink hover:bg-gold-dark hover:text-cream",
 };

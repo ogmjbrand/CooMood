@@ -55,7 +55,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
 
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {product.new && (
-            <span className="rounded-full bg-ink px-3 py-1 font-sans text-[10px] uppercase tracking-wide text-cream">
+            <span className="rounded-full bg-cherry px-3 py-1 font-sans text-[10px] uppercase tracking-wide text-cream">
               New
             </span>
           )}
@@ -100,7 +100,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
             }}
             className={cn(
               "flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3 font-sans text-[11px] uppercase tracking-wide backdrop-blur transition-colors duration-300",
-              added ? "bg-emerald-600 text-white" : "bg-ink/90 text-cream hover:bg-ink"
+              added ? "bg-emerald-600 text-white" : "bg-cherry/95 text-cream hover:bg-cherry"
             )}
           >
             <AnimatePresence mode="wait" initial={false}>

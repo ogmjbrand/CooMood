@@ -9,17 +9,18 @@ import Reviews from "@/components/home/Reviews";
 import InstagramFeed from "@/components/home/InstagramFeed";
 import Newsletter from "@/components/home/Newsletter";
 import { getCollections } from "@/lib/supabase/queries";
+import { safeFetch } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const collections = await getCollections();
+  const { data: collections, ok } = await safeFetch(() => getCollections(), []);
 
   return (
     <>
       <Hero />
       <FlowWaveScene />
-      <FeaturedCollections collections={collections} />
+      <FeaturedCollections collections={collections} unavailable={!ok} />
       <FeaturedProducts />
       <WhyCoomood />
       <ScentBuilderTeaser />

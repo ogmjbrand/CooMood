@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
 import ShopExplorer from "@/components/shop/ShopExplorer";
+import DataUnavailable from "@/components/ui/DataUnavailable";
 import { getCollections, getProductsByCategories } from "@/lib/supabase/queries";
+import { safeFetch } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
@@ -13,10 +15,14 @@ export const metadata: Metadata = {
 const HOME_CATEGORIES = ["candle", "reed-diffuser", "room-spray", "wax-melt", "car-diffuser"];
 
 export default async function HomeFragrancePage() {
-  const [homeProducts, collections] = await Promise.all([
-    getProductsByCategories(HOME_CATEGORIES),
-    getCollections(),
-  ]);
+  const { data, ok } = await safeFetch(
+    () => Promise.all([getProductsByCategories(HOME_CATEGORIES), getCollections()]),
+    [[], []] as [
+      Awaited<ReturnType<typeof getProductsByCategories>>,
+      Awaited<ReturnType<typeof getCollections>>,
+    ]
+  );
+  const [homeProducts, collections] = data;
 
   return (
     <>
@@ -25,7 +31,13 @@ export default async function HomeFragrancePage() {
         title="Home Fragrance"
         description="Luxury shouldn't stop at your skin. Bring your signature scent into every room you live in."
       />
-      <ShopExplorer products={homeProducts} collections={collections} title="Home Fragrance" />
+      {ok ? (
+        <ShopExplorer products={homeProducts} collections={collections} title="Home Fragrance" />
+      ) : (
+        <div className="container-fluid pb-24">
+          <DataUnavailable message="Home fragrance is temporarily unavailable. Please check back shortly." />
+        </div>
+      )}
     </>
   );
 }

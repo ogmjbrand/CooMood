@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
 import ShopExplorer from "@/components/shop/ShopExplorer";
+import DataUnavailable from "@/components/ui/DataUnavailable";
 import { getGiftProducts } from "@/lib/supabase/queries";
+import { safeFetch } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function GiftSetsPage() {
-  const giftProducts = await getGiftProducts();
+  const { data: giftProducts, ok } = await safeFetch(() => getGiftProducts(), []);
 
   return (
     <>
@@ -21,7 +23,13 @@ export default async function GiftSetsPage() {
         description="Every gift arrives as an occasion — velvet box, ribbon, and a wax seal, every time."
         dark
       />
-      <ShopExplorer products={giftProducts} title="Gift Sets" hideCollectionFilter />
+      {ok ? (
+        <ShopExplorer products={giftProducts} title="Gift Sets" hideCollectionFilter />
+      ) : (
+        <div className="container-fluid pb-24">
+          <DataUnavailable message="Gift sets are temporarily unavailable. Please check back shortly." />
+        </div>
+      )}
     </>
   );
 }

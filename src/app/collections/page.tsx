@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/ui/PageHero";
+import DataUnavailable from "@/components/ui/DataUnavailable";
 import { aromaKindTags } from "@/data/collections";
 import { getCollections } from "@/lib/supabase/queries";
+import { safeFetch } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CollectionsPage() {
-  const collections = await getCollections();
+  const { data: collections, ok } = await safeFetch(() => getCollections(), []);
 
   return (
     <>
@@ -24,31 +26,35 @@ export default async function CollectionsPage() {
       />
 
       <section className="container-fluid pb-16">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          {collections.map((c) => (
-            <Link
-              key={c.slug}
-              href={c.slug === "custom" ? "/custom-scent-builder" : `/collections/${c.slug}`}
-              className="group relative block aspect-[16/11] overflow-hidden rounded-[2rem] bg-ink"
-            >
-              <Image
-                src={c.image}
-                alt={c.name}
-                fill
-                sizes="(min-width: 640px) 50vw, 100vw"
-                className="object-cover opacity-80 transition-transform duration-[1200ms] group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-8">
-                <p className="font-sans text-xs uppercase tracking-[0.25em] text-gold-light">
-                  {c.tagline}
-                </p>
-                <h2 className="mt-2 font-display text-4xl text-cream">{c.name}</h2>
-                <p className="mt-3 max-w-sm font-sans text-sm text-cream/70">{c.description}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {ok ? (
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+            {collections.map((c) => (
+              <Link
+                key={c.slug}
+                href={c.slug === "custom" ? "/custom-scent-builder" : `/collections/${c.slug}`}
+                className="group relative block aspect-[16/11] overflow-hidden rounded-[2rem] bg-ink"
+              >
+                <Image
+                  src={c.image}
+                  alt={c.name}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover opacity-80 transition-transform duration-[1200ms] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-8">
+                  <p className="font-sans text-xs uppercase tracking-[0.25em] text-gold-light">
+                    {c.tagline}
+                  </p>
+                  <h2 className="mt-2 font-display text-4xl text-cream">{c.name}</h2>
+                  <p className="mt-3 max-w-sm font-sans text-sm text-cream/70">{c.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <DataUnavailable message="Collections are temporarily unavailable. Please check back shortly." />
+        )}
       </section>
 
       <section className="bg-white py-20">

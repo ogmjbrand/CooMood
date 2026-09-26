@@ -4,6 +4,7 @@ import PageHero from "@/components/ui/PageHero";
 import ShopExplorer from "@/components/shop/ShopExplorer";
 import DataUnavailable from "@/components/ui/DataUnavailable";
 import { getCollectionBySlug, getProductsByCollection } from "@/lib/supabase/queries";
+import { withTimeout } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const collection = await getCollectionBySlug(slug);
+    const collection = await withTimeout(getCollectionBySlug(slug));
     if (!collection) return {};
     return {
       title: `${collection.name} Collection`,
@@ -34,10 +35,10 @@ export default async function CollectionPage({
   const { slug } = await params;
 
   try {
-    const collection = await getCollectionBySlug(slug);
+    const collection = await withTimeout(getCollectionBySlug(slug));
     if (!collection) notFound();
 
-    const collectionProducts = await getProductsByCollection(collection.slug);
+    const collectionProducts = await withTimeout(getProductsByCollection(collection.slug));
 
     return (
       <>

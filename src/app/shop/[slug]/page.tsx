@@ -9,6 +9,7 @@ import {
 import ProductDetail from "@/components/shop/ProductDetail";
 import PageHero from "@/components/ui/PageHero";
 import DataUnavailable from "@/components/ui/DataUnavailable";
+import { withTimeout } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const product = await getProductBySlug(slug);
+    const product = await withTimeout(getProductBySlug(slug));
     if (!product) return {};
     return {
       title: product.name,
@@ -44,14 +45,16 @@ export default async function ProductPage({
   const { slug } = await params;
 
   try {
-    const product = await getProductBySlug(slug);
+    const product = await withTimeout(getProductBySlug(slug));
     if (!product) notFound();
 
-    const [related, allProducts, reviews] = await Promise.all([
-      getRelatedProducts(product),
-      getProducts(),
-      getReviewsForProduct(product.slug),
-    ]);
+    const [related, allProducts, reviews] = await withTimeout(
+      Promise.all([
+        getRelatedProducts(product),
+        getProducts(),
+        getReviewsForProduct(product.slug),
+      ])
+    );
 
     const jsonLd = {
       "@context": "https://schema.org",

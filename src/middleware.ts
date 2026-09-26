@@ -22,7 +22,10 @@ export async function middleware(request: NextRequest) {
   });
 
   try {
-    await supabase.auth.getUser();
+    await Promise.race([
+      supabase.auth.getUser(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("auth refresh timed out")), 5000)),
+    ]);
   } catch (error) {
     console.error("[middleware] Supabase auth refresh failed:", error);
   }

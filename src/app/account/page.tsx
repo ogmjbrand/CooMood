@@ -4,6 +4,7 @@ import AccountDashboard from "@/components/account/AccountDashboard";
 import DataUnavailable from "@/components/ui/DataUnavailable";
 import { createClient } from "@/lib/supabase/server";
 import { getAddresses, getCustomer, getOrders, getProducts } from "@/lib/supabase/queries";
+import { withTimeout } from "@/lib/safeFetch";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export default async function AccountPage() {
   const auth = await (async () => {
     try {
       const supabase = await createClient();
-      const { data } = await supabase.auth.getUser();
+      const { data } = await withTimeout(supabase.auth.getUser());
       return { ok: true as const, user: data.user };
     } catch (error) {
       console.error("[AccountPage] failed to verify session:", error);
@@ -34,12 +35,14 @@ export default async function AccountPage() {
   const user = auth.user;
 
   try {
-    const [customer, addresses, orders, products] = await Promise.all([
-      getCustomer(user.id, user.email ?? ""),
-      getAddresses(user.id),
-      getOrders(user.id),
-      getProducts(),
-    ]);
+    const [customer, addresses, orders, products] = await withTimeout(
+      Promise.all([
+        getCustomer(user.id, user.email ?? ""),
+        getAddresses(user.id),
+        getOrders(user.id),
+        getProducts(),
+      ])
+    );
 
     return (
       <>

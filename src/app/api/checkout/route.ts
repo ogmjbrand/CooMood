@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getStripe } from "@/lib/stripe";
+import { createClient } from "@/lib/supabase/server";
+import { withTimeout } from "@/lib/safeFetch";
 
 const lineSchema = z.object({
+  slug: z.string(),
   name: z.string(),
   price: z.number().positive(),
   quantity: z.number().int().positive(),
   image: z.string().optional(),
+  size: z.string().optional(),
 });
 
 const bodySchema = z.object({
@@ -35,9 +39,19 @@ export async function POST(request: Request) {
 
   const origin = request.headers.get("origin") ?? "https://coomood.com";
 
+  let customerId: string | null = null;
+  try {
+    const supabase = await createClient();
+    const { data } = await withTimeout(supabase.auth.getUser(), 3000);
+    customerId = data.user?.id ?? null;
+  } catch (error) {
+    console.error("[checkout] failed to resolve logged-in customer:", error);
+  }
+
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     customer_email: parsed.data.email,
+    metadata: customerId ? { customer_id: customerId } : undefined,
     line_items: parsed.data.lines.map((line) => ({
       quantity: line.quantity,
       price_data: {
@@ -46,6 +60,7 @@ export async function POST(request: Request) {
         product_data: {
           name: line.name,
           images: line.image ? [line.image] : undefined,
+          metadata: { slug: line.slug, size: line.size ?? "" },
         },
       },
     })),

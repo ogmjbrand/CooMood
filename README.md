@@ -41,6 +41,7 @@ copy `.env.example` to `.env.local` and fill in:
 | **Stripe** | `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `/api/checkout` creates a real Checkout Session. Without a key it returns a friendly "not configured" message instead of erroring. |
 | **Supabase** | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | Run `supabase/schema.sql` against a Supabase project for products, orders, customers, reviews, and custom-scent tables (with row-level security policies). `src/lib/supabase/{client,server}.ts` are ready to use once configured. |
 | **Resend** | `RESEND_API_KEY` | `/api/newsletter` sends a welcome email; falls back to "accepted, email not yet configured" otherwise. |
+| **Admin dashboard** | `ADMIN_PASSWORD` | Gates `/admin` (orders, products, customers, coupons, gift cards) behind a shared password + signed session cookie. Without it set, `/admin/login` rejects every attempt. |
 | **Analytics** | `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID` | Loads Google Analytics / Meta Pixel via `src/components/layout/Analytics.tsx` only when set. |
 | **Cloudinary** | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Optional — swap in for real product photography hosting. |
 

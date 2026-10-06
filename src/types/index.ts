@@ -70,6 +70,7 @@ export interface Product {
   rating: number;
   reviewCount: number;
   inStock: boolean;
+  inventoryCount?: number;
   featured?: boolean;
   new?: boolean;
   bestseller?: boolean;

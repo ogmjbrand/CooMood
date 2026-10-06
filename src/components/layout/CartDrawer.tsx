@@ -2,13 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus, X } from "lucide-react";
 import { useCartStore } from "@/lib/store/cart";
 import { formatPrice } from "@/lib/utils";
 
 export default function CartDrawer() {
+  const pathname = usePathname();
   const { lines, isOpen, close, removeLine, updateQuantity, subtotal } = useCartStore();
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <AnimatePresence>

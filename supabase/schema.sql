@@ -185,6 +185,12 @@ alter table public.order_items enable row level security;
 alter table public.products enable row level security;
 alter table public.collections enable row level security;
 
+-- No public policies on these three — only the service-role admin client
+-- (src/lib/supabase/admin.ts, which bypasses RLS) should ever touch them.
+alter table public.coupons enable row level security;
+alter table public.gift_cards enable row level security;
+alter table public.newsletter_subscribers enable row level security;
+
 create policy "Public can read products" on public.products for select using (true);
 create policy "Public can read collections" on public.collections for select using (true);
 create policy "Public can read reviews" on public.reviews for select using (true);

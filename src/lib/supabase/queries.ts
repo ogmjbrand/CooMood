@@ -22,6 +22,7 @@ interface ProductRow {
   occasion: string[] | null;
   size: string | null;
   in_stock: boolean;
+  inventory_count: number | null;
   featured: boolean;
   is_new: boolean;
   bestseller: boolean;
@@ -76,6 +77,7 @@ function mapProduct(row: ProductRow): Product {
     rating: row.rating != null ? Number(row.rating) : 0,
     reviewCount: row.review_count ?? 0,
     inStock: row.in_stock,
+    inventoryCount: row.inventory_count ?? 0,
     featured: row.featured,
     new: row.is_new,
     bestseller: row.bestseller,
@@ -94,7 +96,7 @@ function mapCollection(row: CollectionRow): Collection {
 }
 
 const PRODUCT_COLUMNS =
-  "slug, name, category, collection_slug, price, compare_at_price, image_url, gallery, description, story, notes_top, notes_middle, notes_base, mood, gender, season, longevity, occasion, size, in_stock, featured, is_new, bestseller, rating, review_count";
+  "slug, name, category, collection_slug, price, compare_at_price, image_url, gallery, description, story, notes_top, notes_middle, notes_base, mood, gender, season, longevity, occasion, size, in_stock, inventory_count, featured, is_new, bestseller, rating, review_count";
 
 export async function getProducts(): Promise<Product[]> {
   const supabase = await createClient();

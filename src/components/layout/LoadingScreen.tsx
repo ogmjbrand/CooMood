@@ -2,15 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function LoadingScreen() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(false), 1600);
     return () => clearTimeout(t);
   }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <AnimatePresence>

@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/lib/store/cart";
 
 export default function CartPill() {
+  const pathname = usePathname();
   const lines = useCartStore((s) => s.lines);
   const isOpen = useCartStore((s) => s.isOpen);
   const openCart = useCartStore((s) => s.open);
@@ -20,6 +22,8 @@ export default function CartPill() {
       }
       return acc;
     }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <AnimatePresence>

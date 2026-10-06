@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Send } from "lucide-react";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/BrandIcons";
@@ -48,8 +49,11 @@ const columns = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <footer className="relative overflow-hidden bg-ink text-cream">

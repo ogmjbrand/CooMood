@@ -18,6 +18,15 @@ const bodySchema = z.object({
   email: z.string().email().optional(),
 });
 
+function resolveImageUrl(image: string | undefined, origin: string): string | undefined {
+  if (!image) return undefined;
+  try {
+    return new URL(image, origin).toString();
+  } catch {
+    return undefined;
+  }
+}
+
 export async function POST(request: Request) {
   const json = await request.json();
   const parsed = bodySchema.safeParse(json);
@@ -52,18 +61,21 @@ export async function POST(request: Request) {
     mode: "payment",
     customer_email: parsed.data.email,
     metadata: customerId ? { customer_id: customerId } : undefined,
-    line_items: parsed.data.lines.map((line) => ({
-      quantity: line.quantity,
-      price_data: {
-        currency: "usd",
-        unit_amount: Math.round(line.price * 100),
-        product_data: {
-          name: line.name,
-          images: line.image ? [line.image] : undefined,
-          metadata: { slug: line.slug, size: line.size ?? "" },
+    line_items: parsed.data.lines.map((line) => {
+      const resolvedImage = resolveImageUrl(line.image, origin);
+      return {
+        quantity: line.quantity,
+        price_data: {
+          currency: "usd",
+          unit_amount: Math.round(line.price * 100),
+          product_data: {
+            name: line.name,
+            images: resolvedImage ? [resolvedImage] : undefined,
+            metadata: { slug: line.slug, size: line.size ?? "" },
+          },
         },
-      },
-    })),
+      };
+    }),
     shipping_address_collection: { allowed_countries: ["US", "CA", "GB", "AU"] },
     success_url: `${origin}/order-tracking?success=1`,
     cancel_url: `${origin}/checkout`,
